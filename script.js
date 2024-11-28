@@ -7,15 +7,29 @@ const diceElement = document.querySelector(".dice");
 const rollDiceEl = document.querySelector(".btn--roll");
 const holdButton = document.querySelector(".btn--hold");
 const newGameButton = document.querySelector(".btn--new");
-let playing = true;
-let activePlayer = 0;
-let score = [0, 0];
-let currentScore = 0;
 
-// Setting the value to 0
-score0Element.textContent = 0;
-score1Element.textContent = 0;
-diceElement.classList.add("hidden");
+let playing, activePlayer, score, currentScore;
+
+const init = function () {
+  // resetting all the variables
+  playing = true;
+  activePlayer = 0;
+  score = [0, 0];
+  currentScore = 0;
+
+  // Setting the value to 0
+  score0Element.textContent = 0;
+  score1Element.textContent = 0;
+  diceElement.classList.add("hidden");
+  // if there is no player--active it will not give an error
+  // if the div already has player--active class it will not add the second time
+  document.querySelector(`.player--0`).classList.remove("player--winner");
+  document.querySelector(`.player--1`).classList.remove("player--winner");
+  document.querySelector(`.player--0`).classList.add("player--active");
+  document.querySelector(`.player--1`).classList.remove("player--active");
+};
+
+init();
 
 const switchPlayer = function () {
   document.getElementById(`current--${activePlayer}`).textContent = 0;
@@ -71,21 +85,4 @@ holdButton.addEventListener("click", function () {
   }
 });
 
-newGameButton.addEventListener("click", function () {
-  // resetting all the variables
-  document
-    .querySelector(`.player--${activePlayer}`)
-    .classList.remove("player--winner");
-  playing = true;
-  activePlayer = 0;
-  score = [0, 0];
-  currentScore = 0;
-
-  // Setting the value to 0
-  score0Element.textContent = 0;
-  score1Element.textContent = 0;
-  diceElement.classList.add("hidden");
-  document
-    .querySelector(`.player--${activePlayer}`)
-    .classList.add("player--active");
-});
+newGameButton.addEventListener("click", init);
